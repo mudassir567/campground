@@ -1,0 +1,160 @@
+<%- include("../partials/header") %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">YelpCamp</p>
+            <div class="list-group">
+                <li class="list-group-item active">info</li>
+                <li class="list-group-item ">info</li>
+                <li class="list-group-item ">info</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <img class="img-fluid" src="<%= campi.image %>" >
+                <div class="figure-caption">
+                    <h4 class="float-right"><%= campi.price %>$</h4>
+                    <h4 class="float-right"><%= campi.member %>+</h4>
+                    <h4><a href=""><%= campi.name %></a></h4>
+                    <p><%= campi.description %></p>
+                    <p><em>Submitted by<a href="/users/<%= campi.author.id %>"><%= campi.author.username %></a></em></p>
+                    <p><%= campi.location %></p>
+                </div>
+                <div>
+                    <% if(currentuser && campi.author.id.equals(currentuser._id)){ %>
+                        <a href="/campgrounds/<%= campi._id %>/edit" class="btn btn-success">editCamp</a>
+                        <form action="/campgrounds/<%= campi._id %>?_method=delete" method="POST" class="delete">
+                            <button class="btn btn-danger">delete</button>
+                        </form>
+                  <% } %>
+                   
+                </div>
+               
+            </div>
+             <!--Review section-->
+            <div class="card">
+                <div class="figure-caption">
+                    <% if (campi.rating === 0) { %>
+                    <h5>
+                        <em>No reviews yet.</em>
+                    </h5>
+                    <% } else { %>
+                    <p>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star <% if (campi.rating > 1.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (campi.rating > 2.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (campi.rating > 3.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (campi.rating > 4.5) { %> checked <% } %>"></span>
+                        <em>(total reviews: <%= campi.reviews.length %>)</em>
+                    </p>
+                    <p>
+                        Current campground rating: <strong><%= campi.rating.toFixed(2) %></strong>
+                    </p>
+                    <p><h4>Latest reviews for this campground:</h4></p>
+                    <hr style="margin-top: 0;">
+                    <% campi.reviews.slice(0, 5).forEach(function(review){ %>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
+                            <div>Review by: <strong><%= review.author.username %></strong></div>
+                            <span><em><%= review.updatedAt.toDateString() %></em></span>
+                        </div>
+                        <div class="col-md-9">
+                            <p style="text-align: justify; word-wrap: break-word;">
+                                <%= review.text %>
+                            </p>
+                            <% if(currentuser && review.author.id.equals(currentuser._id)){ %>
+                            <a class="btn btn-xs btn-warning"
+                               href="/campgrounds/<%=campi._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                            <form id="delete-form" action="/campgrounds/<%=campi._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                                <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                            </form>
+                            <% } %>
+                        </div>
+                    </div>
+                    <hr>
+                    <% }); %>
+                    <div style="margin-bottom: 10px;">
+                        <h4><a href="/campgrounds/<%= campi._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i> See all reviews</a></h4>
+                    </div>
+                    <% } %>
+                    <div>
+                        <a class="btn btn-primary btn-lg <% if (currentuser && campi.reviews.some(function (review) {return review.author.id.equals(currentuser._id)})) { %> disabled <% } %>" href="/campgrounds/<%= campi._id %>/reviews/new">
+                            Write a New Review</a>
+                    </div>
+                </div>
+            </div>
+           
+           
+               
+                   
+  
+            <!-- comment section -->
+            
+            <div class="card" style="border:2px solid red;">
+                <div class="container" id="comment-section">
+                    
+                
+                <div class="text-right">
+                    <a class="btn btn-success " href="/campgrounds/<%= campi._id %>/comments/new">Add comment</a>
+                </div>
+                
+                
+                
+            
+
+            <% campi.comments.forEach(function(comment){%>
+                <div class="row" id="comment-detail">
+                    <div class="col-md-12">
+                        <%= comment.author.username %>
+                        <span class="float-right">
+                            10 days ago
+                        </span>
+                        <p>
+                           
+                            <%= comment.text %>
+                        </p>
+                        <% if(currentuser && comment.author.id.equals(currentuser._id)) {%>
+                        <a class="btn btn-warning" href="/campgrounds/<%= campi._id %>/comments/<%= comment._id %>/edit">edit</a>
+                        <form action="/campgrounds/<%= campi._id %>/comments/<%= comment._id %>?_method=delete" method="POST" class="delete">
+                            <button>delete</button>
+                        </form>
+                    <% } %>
+                    </div>
+                </div>
+                
+            <%})%>
+        </div>
+        </div>
+        <!-- booking section -->
+        <div class="card" style="border:2px solid red;">
+            <div class="container" id="booking-section">
+                
+            
+            <div class="text-right">
+                <a class="btn btn-success " href="/campgrounds/<%= campi._id %>/users/<%= campi.author.id %>/bookings">booking</a>
+            </div>
+           
+                <div class="row" id="comment-detail">
+                    <div class="col-md-12">
+                        
+                        <span class="float-right">
+                            10 days ago
+                        </span>
+                      
+                    </div>
+                </div>
+           
+  
+    </div>
+    </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<%- include("../partials/footer") %>

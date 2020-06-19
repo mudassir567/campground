@@ -1,0 +1,23 @@
+<%- include("../partials/header") %>
+
+<ul>
+	<% var i=0 %>
+	<% notifications.forEach(function(notification) { %>
+	<li>
+		
+
+	     
+		
+		
+		
+	
+		<a href="/user/<%= userId %>/notifications/booking/<%= bookings[i]._id %>">
+			<%= notification._id %> created a new campground %><%= bookings[i]._id %>
+		</a>
+		<% i++ %>
+		
+	</li>
+	<% }); %>
+</ul>
+
+<%- include("../partials/footer") %>

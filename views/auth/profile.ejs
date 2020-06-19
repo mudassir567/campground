@@ -1,0 +1,7 @@
+<%- include("../partials/header") %>
+
+<h1><%= User.username %>'s profile</h1>
+
+<a href="/follow/<%= User.id %>"><button class="btn btn-primary">Follow <%= User.username %></button></a>
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,157 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+
+
+    <header class="jumbotron">
+        <h1> welcome to yelp Campgrounds</h1>
+        <p>This is the place where you find camps all over the world</p>
+        <p>
+            <a class="btn btn-primary" href="/campgrounds/new">Add campground</a>
+        </p>
+        <p>
+            <% var test = [];  %>
+            <% campgrounds.forEach((item)=>{%>
+            <% var a=item.description  %>
+            <% test.push(a) %>
+            <% a %>
+            <%});%>
+            <%= test%>
+        <form autocomplete="off" action="/campgrounds" method="GET">
+            <div id="boxi">
+
+                <input type="text" name="search" placeholder="campground search..." id="search-results">
+                <input type="text" name="search1" placeholder="description" id="desc">
+                
+               
+               
+                <input type="submit" value="search" id="submit">
+               
+            </div>
+        </form>
+
+       
+        </p>
+    </header>
+
+  
+  
+
+    <form autocomplete="off" action="/campgrounds" method="GET">
+        <div class="row">
+            <div class="col-md-12">
+                <% if(noMatch !== null){%>
+                <h3><%= noMatch %></h3>
+                <%}%>
+
+      </div>
+      
+
+</form>
+    <% campgrounds.forEach(function(campground){%>
+                <div class="col-lg-4 col-sm-6">
+
+                    <div class="card ">
+                        <img class="card-img-top" src="<%=campground.image%>" alt=" " style="height: 15rem;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= campground.name %></h5>
+                            <p class="card-text"><%= campground.description %></p>
+                            <p class="card-text"><%= campground.location %></p>
+                            <p class="card-text"><%= campground.sublocation %></p>
+                            <% if (campground.rating === 0) { %>
+                                <em>No reviews yet.</em>
+                                <% } else { %>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
+                                <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
+                                <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
+                                <span class="fa fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
+                                <% } %>
+
+                            <%= campground %>
+                            <a href="/campgrounds/<%= campground._id %>" class="btn btn-outline-success btn-sm">View
+                                info</a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- first attempt as a practicew
+            <div>
+
+           <h2><%= campground.name %></h2> 
+            <img src="<%=campground.image%>">
+           </div> -->
+                <%});%>
+                <script>
+                    let searchData = [];
+
+                    let searchDesc = [];
+                   
+                    let data;
+                   
+
+                        
+                        $("#location").val(location)
+                        $.ajax({
+                            url: "/getAllCampgrounds", success: function (result) {
+                                console.log(result)
+                                var v = $(document).ready(function () {
+                                    $("#location").on("keyup", function () {
+                                        var value = $(this).val().toLowerCase();
+                                    })
+                                })
+                                let temp = result.campgrounds;
+                                for (x in result.campgrounds) {
+                                    // if (!(result.campgrounds[x].location === v)) {
+                                    searchData.push(result.campgrounds[x].name);
+                                    searchDesc.push(result.campgrounds[x].description);
+                                    
+
+
+                                 
+                                }
+                               
+
+                               
+                
+                            }
+
+                        });
+                 
+                    
+
+                   
+
+                    $(function () {
+                        var availableTags = searchData;
+                        console.log(availableTags);
+
+                        $("#search-results").autocomplete({
+                            source: availableTags,
+                        });
+                    });
+
+
+
+                    $(function () {
+
+                        var ds = searchDesc;
+                        console.log(searchDesc)
+
+
+
+
+                        $("#desc").autocomplete({
+                            source: ds
+                        });
+                    });
+
+                   
+
+
+                 
+                </script>
+
+                <%- include("../partials/footer") %>

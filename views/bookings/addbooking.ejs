@@ -1,0 +1,16 @@
+<%- include("../partials/header") %>
+<h1>Add comments 
+    <%= campgrounds_id._cid %>
+    <%= campgrounds_id.id %>
+    <%= campgrounds_id %>
+<form action="/campgrounds/<%= campgrounds_id %>/users/<%= campground.id %>/bookings" method="POST">
+         
+    <div class="form-group">
+    <input type="text" placeholder="price" name="bookings[price]">
+    </div>
+    <div class="form-group">
+    <button>booking</button>
+    </div>
+</form>
+
+<%- include("../partials/footer") %>

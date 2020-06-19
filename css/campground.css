@@ -1,0 +1,60 @@
+.card{
+    margin: 1.66%;
+}
+.card-text{
+    font-size: 0.8em;
+}
+body{
+    margin-top:100px ;
+}
+#comment-section{
+    margin-top:10px ;
+}
+#comment-detail{
+    margin-top: 10px;
+}
+.card .figure-caption{
+    padding: 9px;
+}
+.delete{
+    display: inline;
+}
+#boxi{
+    
+   overflow: hidden;
+}
+#search-results{
+    background-color: black;
+    color: white;
+    width:30%;
+}
+#suggestions{
+   
+    width: 30%;
+}
+#suggestions>div{
+    background-color: black;
+    color: white;
+    padding: 5px;
+    
+    border: 1px solid white;
+    cursor: pointer;
+}
+#suggestions>div:hover{
+    background-color: #1e4dd4;
+}
+#suggestions { max-height: 200px; overflow-y: scroll; overflow-x: hidden;}
+.checked {
+    color: orange;
+}
+
+@media only screen and (max-width: 767px) {
+    .card-text{
+      font-size: 0.6em;
+    }
+  }
+
+  .ui-autocomplete{
+      max-height: 250px;
+      overflow: scroll;
+  }
